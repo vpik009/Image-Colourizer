@@ -27,9 +27,9 @@
     - Bing downloader was used to download the train and test data. Further details can be viewed in 'dataset.py' file
     - Downloaded images were browsed and downloaded using the following parameters:
         "animals", "people", "cars", "buildings", "trees", "mountains", "beaches", "food",
-        "oceans", "rivers", "lakes", "deserts", "cities", "night", "day", "sun", "moon",
-        "stars", "clouds", "rain", "snow", "storm", "fog", "wind", "tornado", "hurricane",
-        "earthquake", "volcano", "tsunami", "fire", "ice", "water", "air", "earth", "space",
+        "oceans", "rivers", "lakes", "deserts", "cities", "night", "moon", "clouds",
+        "rain", "snow", "storm", "fog", "wind", "tornado", "hurricane", "earthquake", 
+        "volcano", "tsunami", "fire", "ice", "water", "air", "earth", "space",
         "universe", "galaxy", "planet"
 
     - queries can be found in 'queries_for_download.py' file

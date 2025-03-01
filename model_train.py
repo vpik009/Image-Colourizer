@@ -8,32 +8,41 @@ from PIL import Image
 
 # this is where we initialize the model and train it.
 
-toGrayscale = transforms.Compose([ # Convert to grayscale for training data
+to_grayscale = transforms.Compose([ # Convert to grayscale for training data
     transforms.Grayscale(num_output_channels=1),
     transforms.ToTensor()
 ])
+to_pils = transforms.ToPILImage()
 
 if __name__ == "__main__":
 
-    dataset = ImageFolder(root="transformed_dataset", transform=toGrayscale)  # Load dataset with transform
-    train_loader = DataLoader(dataset, batch_size=20, shuffle=True)
+    # load train and test data
+    dataset = ImageFolder(root="transformed_dataset", transform=transforms.ToTensor()) 
 
-    data_iter = iter(train_loader)
-    images, labels = next(data_iter)  # Unpack images and labels
+    data_loader = DataLoader(dataset, batch_size=20, shuffle=True)  # DataLoader makes it easier to deal with batches.
+    
+    data_iter = iter(data_loader)
+    images_label, _ = next(data_iter)  # Unpack images and labels
 
-    print(images)
-    # Convert tensor to PIL image (for visualization)
-    to_pil = transforms.ToPILImage()
+    images_train = torch.stack([to_grayscale(to_pils(img)) for img in images_label])  # transform to grayscale for training
 
-    fig, axes = plt.subplots(1, 5, figsize=(12, 6))  # Show 5 images
-    for i in range(5):
-        img_tensor = images[i].squeeze(0)  # Remove channel dim (C, H, W) -> (H, W)
-        img = to_pil(img_tensor)  # Convert to PIL image
-        axes[i].imshow(img, cmap="gray")  # Display as grayscale
-        axes[i].axis("off")
+    # fig, axes = plt.subplots(2, 5, figsize=(12, 6))  # 2 rows, 5 columns
 
-    plt.show()
-    raise ValueError
+    # for i in range(5):  # Display 5 images
+    #     # Original image (RGB)
+    #     img_label = images_label[i].permute(1, 2, 0).numpy()  # Change from (C, H, W) to (H, W, C)
+    #     axes[0, i].imshow(img_label)
+    #     axes[0, i].axis("off")
+    #     axes[0, i].set_title("Original")
+
+    #     # Grayscale image
+    #     img_train = images_train[i].squeeze(0).numpy()  # Remove channel dim
+    #     axes[1, i].imshow(img_train, cmap="gray")
+    #     axes[1, i].axis("off")
+    #     axes[1, i].set_title("Grayscale")
+
+    # plt.tight_layout()
+    # plt.show()
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # I only have cpu
     loss_fn = torch.nn.MSELoss()
