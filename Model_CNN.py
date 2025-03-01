@@ -1,17 +1,20 @@
 import torch
 
 class Model_CNN(torch.nn.Module):
-    def __init__(self, loss_fn, train_loader, device):  #todo to make use of the parameters later
+    def __init__(self, loss_fn, inputs, labels, device):  #todo to make use of the parameters later
         super(Model_CNN, self).__init__()
         self.conv1 = torch.nn.Conv2d(in_channels=1, out_channels=50, kernel_size=5, padding=2)  # grayscale image, 30, 5x5 kernel
         self.conv2 = torch.nn.Conv2d(in_channels=50, out_channels=150, kernel_size=5, padding=2)
         self.conv3 = torch.nn.Conv2d(in_channels=150, out_channels=300, kernel_size=5, padding=2)
-        self.conv4 = torch.nn.Conv2d(300, 150, kernel_size=3, padding=1)
-        self.conv5 = torch.nn.Conv2d(50, 20, kernel_size=3, padding=1)
+        self.conv4 = torch.nn.Conv2d(in_channels=300, out_channels=150, kernel_size=3, padding=1)
+        self.conv5 = torch.nn.Conv2d(in_channels=150, out_channels=20, kernel_size=3, padding=1)
         self.output_layer = torch.nn.Conv2d(20, 3, kernel_size=1)
         
         self.activation = torch.nn.ReLU()
-        self.loss = torch.nn.MSELoss()  # L2 loss
+        self.loss = loss_fn
+        self.device = device
+        self.inputs = inputs
+        self.labels = labels
         self.optim = None  # needs to be set after initialization of the model due to model.parameters() argument
 
     def forward(self, x):
@@ -28,26 +31,22 @@ class Model_CNN(torch.nn.Module):
         x = self.output_layer(x)
         return x
         
-    def train(self, epoch):
-        loss = 0
-        for batch_idx, (data, target) in enumerate(self.train_loader):  # train_loader is a DataLoader object and states the batch size
-            data, target = data.to(self.device), target.to(self.device)
-            output = self.model(data)
-            self.optimizer.zero_grad()
-            loss = self.loss_fn(output, target)
-            loss.backward()
-            self.optimizer.step()
-            if batch_idx % 10 == 0:
-                print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
-                    epoch, batch_idx * len(data), len(self.train_loader.dataset),
-                    100. * batch_idx / len(self.train_loader), loss.item()))
-        return loss
+    def train(self, epochs):
 
-    def fit(self, epochs):
-        best_acc = 0
-        for epoch in range(1, epochs + 1):
-            train_loss = self.train(epoch)
-            val_loss, correct = self.validate()
-            if correct > best_acc:
-                best_acc = correct
-                torch.save(self.model.state_dict(), "best_model.pth")
+        self.to(self.device) # use cuda if available
+        super().train(True)
+
+        for epoch in range(epochs):
+            for batch_idx, (inputs, targets) in enumerate(zip(self.inputs, self.labels)):  
+                inputs, targets = inputs.to(self.device), targets.to(self.device)
+
+                output = self.forward(inputs)
+                self.optim.zero_grad()
+                loss = self.loss(output, targets)
+                print(loss)
+                loss.backward()
+                self.optim.step()
+
+            print(f"Train Epoch: {epoch + 1}/{epochs} | Loss: {loss.item():.6f}")
+
+        return loss.item()

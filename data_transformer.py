@@ -4,7 +4,7 @@ from torchvision import transforms
 from queries_for_download import queries
 from pathlib import Path
 
-resize = transforms.Resize((1000, 1000))  # Resize the image
+resize = transforms.Resize((256, 256))  # Resize the image
 rotate = transforms.RandomRotation(degrees=(0, 359))  # Random rotation
 to_pil = transforms.ToPILImage()  # Convert tensor back to PIL image
 
