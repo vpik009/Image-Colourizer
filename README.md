@@ -13,6 +13,7 @@
 
 ## Regularization
     - L2 regularization (drives weights to be smaller relative to the value of the weight)
+    - Data Augmentation (Rotational) was included in the preprocessing of the data. The Augmented data was used as part of the training data.
 
 ## Optimizer
     - Adam optimizer is used to update the model parameters at every step while considering the exponential moving average of gradients (similar to momentum), exponential moving squared average of gradients (used to adapt the learning rate), and adaptively correcting the learing rate.
