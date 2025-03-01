@@ -8,9 +8,9 @@ from PIL import Image
 
 # this is where we initialize the model and train it.
 
-toGrayscale = transforms.Compose([
-    transforms.Grayscale(num_output_channels=1),  # Convert to grayscale (1 channel)
-    transforms.ToTensor()  # Convert to tensor
+toGrayscale = transforms.Compose([ # Convert to grayscale for training data
+    transforms.Grayscale(num_output_channels=1),
+    transforms.ToTensor()
 ])
 
 if __name__ == "__main__":

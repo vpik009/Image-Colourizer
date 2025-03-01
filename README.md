@@ -37,7 +37,7 @@
     - Use of data loader allows to efficiently use batches with random data samples for training.
 
 ## Handling Various Image Sizes
-    - Prior to the use of the downloaded images, the images were all resized to 256x256 images.
+    - Prior to the use of the downloaded images, the images were all resized to 1000x1000 images.
     - the transformation is performed by 'data_transformer.py' file
     - On top of resizing, the 'data_transformer.py' file performs data augmentation. (View Regularization section)
 
