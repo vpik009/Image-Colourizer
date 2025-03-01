@@ -32,8 +32,8 @@ class Model_CNN(torch.nn.Module):
         loss = 0
         for batch_idx, (data, target) in enumerate(self.train_loader):  # train_loader is a DataLoader object and states the batch size
             data, target = data.to(self.device), target.to(self.device)
-            self.optimizer.zero_grad()
             output = self.model(data)
+            self.optimizer.zero_grad()
             loss = self.loss_fn(output, target)
             loss.backward()
             self.optimizer.step()
