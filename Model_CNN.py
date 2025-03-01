@@ -1,7 +1,7 @@
 import torch
 
 class Model_CNN(torch.nn.Module):
-    def __init__(self, loss_fn, inputs, labels, device):  #todo to make use of the parameters later
+    def __init__(self, loss_fn, device):  #todo to make use of the parameters later
         super(Model_CNN, self).__init__()
         self.conv1 = torch.nn.Conv2d(in_channels=1, out_channels=50, kernel_size=5, padding=2)  # grayscale image, 30, 5x5 kernel
         self.conv2 = torch.nn.Conv2d(in_channels=50, out_channels=150, kernel_size=5, padding=2)
@@ -13,8 +13,6 @@ class Model_CNN(torch.nn.Module):
         self.activation = torch.nn.ReLU()
         self.loss = loss_fn
         self.device = device
-        self.inputs = inputs
-        self.labels = labels
         self.optim = None  # needs to be set after initialization of the model due to model.parameters() argument
 
     def forward(self, x):
@@ -30,23 +28,3 @@ class Model_CNN(torch.nn.Module):
         x = self.activation(x)
         x = self.output_layer(x)
         return x
-        
-    def train(self, epochs):
-
-        self.to(self.device) # use cuda if available
-        super().train(True)
-
-        for epoch in range(epochs):
-            for batch_idx, (inputs, targets) in enumerate(zip(self.inputs, self.labels)):  
-                inputs, targets = inputs.to(self.device), targets.to(self.device)
-
-                output = self.forward(inputs)
-                self.optim.zero_grad()
-                loss = self.loss(output, targets)
-                print(loss)
-                loss.backward()
-                self.optim.step()
-
-            print(f"Train Epoch: {epoch + 1}/{epochs} | Loss: {loss.item():.6f}")
-
-        return loss.item()
