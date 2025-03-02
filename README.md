@@ -13,7 +13,7 @@ This is a project that designs and creates a small Neural Network using Convolut
 
 ## Regularization
     - L2 regularization (which encourages smaller weight values by penalizing large weights)
-    - The use of batches technically results in regularization due to the fact that the gradient of the loss is taken with respect to the weights of the batch rather than the entire dataset.
+    - The use of batches technically results in regularization due to the fact that the update step is performed based on the average loss across subset of the dataset - introducing noise.
     - Data Augmentation 1: Rotation was included in the preprocessing of the data. The Augmented data was used as part of the training data.
     - TODO Data Augmentation 2: Multi Scale data augmentation to train the model to intake images of different sizes
 
