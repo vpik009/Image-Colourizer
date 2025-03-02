@@ -79,7 +79,7 @@ if __name__ == "__main__":
             model.optim.step()
             
             # save the model every x batches
-            if (batch_idx + 1) % 5 == 0:
+            if (batch_idx + 1) % 50 == 0:
                 batch_save_path = os.path.join(CHECKPOINT_DIR, f"model_epoch_{i}_batch_{batch_idx}.pth")
                 torch.save({
                     "epoch": i,
