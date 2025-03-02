@@ -10,6 +10,7 @@ to_pil = transforms.ToPILImage()  # Convert tensor back to PIL image
 
 if __name__ == "__main__":
     # create the necessary directories
+    print("Transforming data...")
     output_dir = Path("transformed_dataset")
     output_dir.mkdir(parents=True, exist_ok=True)
     output_resized_dir = Path("transformed_dataset/resized")
@@ -36,4 +37,5 @@ if __name__ == "__main__":
                 rotated_image.save(output_rotated_dir / query / file_name)
             except FileNotFoundError as e:
                 continue  # some images may not exist since they were deleted in manual post processing, so we skip them
+    print("Data transformation complete")
     
