@@ -13,7 +13,8 @@
 
 ## Regularization
     - L2 regularization (drives weights to be smaller relative to the value of the weight)
-    - Data Augmentation (Rotational) was included in the preprocessing of the data. The Augmented data was used as part of the training data.
+    - Data Augmentation 1: Rotation was included in the preprocessing of the data. The Augmented data was used as part of the training data.
+    TODO - Data Audmentation 2: Multi Scale data augmentation to train the model to intake images of different sizes
 
 ## Optimizer
     - Adam optimizer is used to update the model parameters at every step while considering the exponential moving average of gradients (similar to momentum), exponential moving squared average of gradients (used to adapt the learning rate), and adaptively correcting the learing rate.
@@ -30,11 +31,12 @@
         "oceans", "rivers", "lakes", "deserts", "cities", "night", "moon", "clouds",
         "rain", "snow", "storm", "fog", "wind", "tornado", "hurricane", "earthquake", 
         "volcano", "tsunami", "fire", "ice", "water", "air", "earth", "space",
-        "universe", "galaxy", "planet"
-
+        "universe", "galaxy", "planet", "winter", "spring", "summer", "autumn", 
+        "flowers", "peoples faces"
     - queries can be found in 'queries_for_download.py' file
+    - Uses of data loader allows to efficiently use batches with random data samples for training.
     - Some of the data was manually filtered based on the "appropriateness" of the images for the training of the model.
-    - Use of data loader allows to efficiently use batches with random data samples for training.
+    - Filtred dataset can be viewed and downloaded here: TODO
 
 ## Handling Various Image Sizes
     - Prior to the use of the downloaded images, the images were all resized to 1000x1000 images.
