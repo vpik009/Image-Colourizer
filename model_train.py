@@ -28,7 +28,7 @@ if __name__ == "__main__":
     images_train = torch.stack([to_grayscale(to_pils(img)) for img in images_label])  # transform to grayscale for training
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # I only have cpu
-    loss_fn = torch.nn.L1Loss() #torch.nn.MSELoss()
+    loss_fn = torch.nn.MSELoss()
 
     model = Model_CNN(loss_fn, device)  # Initialize without optimizer
 
@@ -37,9 +37,12 @@ if __name__ == "__main__":
 
     # load existing model (if have)
     # model.load_state_dict(torch.load("model.pth", map_location=device))
+    # for name, param in model.named_parameters():
+    #     if param.requires_grad:
+    #         print(f"Trainable Layer: {name} | Val: {param.data}")
 
     # train the model
-    epochs = 10
+    epochs = 1
     print("\nTraining the model...")
     model.train()
     for i in range(epochs):
@@ -50,7 +53,7 @@ if __name__ == "__main__":
             inputs, targets = inputs.to(model.device), targets.to(model.device)
             output = model(inputs)
             model.optim.zero_grad()
-            loss = model.loss(output, targets)
+            loss = model.regularization_loss(output, targets, lambda_l2=0.001)  # calculate loss with regularization
             print(f"Batch {batch_idx + 1} - Loss: {loss.item():.6f}")  # Print loss
             
             loss.backward()
@@ -63,14 +66,22 @@ if __name__ == "__main__":
     # test the model
     d = '/home/vladislav/Documents/Image-Colourizer/transformed_dataset/resized/animals/Image_20.jpg'
     t = "test_image1.jpg"
-    image = Image.open(d)
+    image = Image.open(t)
     image = to_grayscale(image).unsqueeze(0)
     output = model.forward(image)
 
     # Display the image
-    output_image = output.squeeze(0).cpu().detach()  # Remove batch dim & move to CPU
-    output_image = to_pils(output_image)
-    plt.imshow(output_image)
-    plt.axis("off")  # Hide axes
+    fig, axes = plt.subplots(1, 2, figsize=(10, 5))  # Create 1 row, 2 columns
+
+    # Original grayscale image
+    axes[0].imshow(image.squeeze(0).cpu(), cmap="gray")  # Remove batch dim & use grayscale colormap
+    axes[0].set_title("Input Grayscale")
+    axes[0].axis("off")
+
+    # Model's colorized output
+    axes[1].imshow(output)  # Show colorized output
+    axes[1].set_title("Colorized Output")
+    axes[1].axis("off")
+
     plt.show()
 
