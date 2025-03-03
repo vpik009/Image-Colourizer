@@ -36,7 +36,7 @@ class Model_CNN(torch.nn.Module):
         self.bn14 = torch.nn.BatchNorm2d(6)
 
         self.activation = torch.nn.ReLU()
-        # self.output_activation = torch.nn.Sigmoid()
+        self.output_activation = torch.nn.Sigmoid()
         self.loss = loss_fn
         self.device = device
         self.optim = None  # Needs to be set after model initialization
@@ -61,4 +61,5 @@ class Model_CNN(torch.nn.Module):
         x = self.activation(self.bn13(self.conv13(x)))
         x = self.activation(self.bn14(self.conv14(x)))
         x = self.output_layer(x)
+        x = self.output_activation(x)
         return x

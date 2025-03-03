@@ -43,7 +43,7 @@ if __name__ == "__main__":
     start_epoch = 0
     start_batch = 0
     try:
-        checkpoint_file = "model_epoch_1_batch_49.pth"
+        checkpoint_file = "model_epoch_55.pth"
         checkpoint_path = os.path.join(CHECKPOINT_DIR, checkpoint_file)
         checkpoint = torch.load(checkpoint_path, map_location=device)
         # Load model and optimizer states
