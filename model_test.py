@@ -28,10 +28,10 @@ if __name__ == "__main__":
     optimizer = torch.optim.Adam(model.parameters(), lr=0.0005)
     model.optim = optimizer  # Attach optimizer to model
 
-    # load existing model (if any)
+    # load existing model
     start_epoch = 0
     start_batch = 0
-    checkpoint_file = "model_epoch_0.pth"
+    checkpoint_file = "model_epoch_6.pth"
     checkpoint_path = os.path.join(CHECKPOINT_DIR, checkpoint_file)
     checkpoint = torch.load(checkpoint_path, map_location=device)
     # Load model and optimizer states
