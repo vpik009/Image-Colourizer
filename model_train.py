@@ -23,7 +23,7 @@ if __name__ == "__main__":
     # load train and test data
     dataset = ImageFolder(root="transformed_dataset", transform=transforms.ToTensor()) 
 
-    data_loader = DataLoader(dataset, batch_size=20, shuffle=True)  # DataLoader makes it easier to deal with batches.
+    data_loader = DataLoader(dataset, batch_size=30, shuffle=True)  # DataLoader makes it easier to deal with batches.
     data_iter = iter(data_loader)
     images_label, _ = next(data_iter)  # Unpack images and labels
 
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     start_epoch = 0
     start_batch = 0
     try:
-        checkpoint_file = "model_epoch_0_batch_4.pth"
+        checkpoint_file = "model_epoch_0_batch_99.pth"
         checkpoint_path = os.path.join(CHECKPOINT_DIR, checkpoint_file)
         checkpoint = torch.load(checkpoint_path, map_location=device)
         # Load model and optimizer states
@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
     # train the model
     print(f"Number of batches: {len(data_loader)}")
-    epochs = 10
+    epochs = 300
     model.train()
     print("\nTraining the model...")
     for i in range(start_epoch, epochs):
@@ -73,7 +73,7 @@ if __name__ == "__main__":
             inputs, targets = inputs.to(model.device), targets.to(model.device)
             output = model(inputs)
             model.optim.zero_grad()
-            loss = model.regularization_loss(output, targets, lambda_l2=0.001)  # calculate loss with regularization
+            loss = model.regularization_loss(output, targets, lambda_l2=0)  # calculate loss with regularization
             print(f"Batch {batch_idx} - Loss: {loss.item():.6f}")  # Print loss
             loss.backward()
             model.optim.step()
@@ -88,7 +88,7 @@ if __name__ == "__main__":
                     "optimizer_state_dict": optimizer.state_dict(),
                 }, batch_save_path)
                 print(f"Saved batch checkpoint: {batch_save_path}")
-        
+        start_batch = 0  # Reset batch index after first epoch
         # save the model every epoch
         epoch_save_path = os.path.join(CHECKPOINT_DIR, f"model_epoch_{i}.pth")
         torch.save({
@@ -103,6 +103,7 @@ if __name__ == "__main__":
     t_1 = "test_image1.jpg"
     t_2 = "test_image2.jpg"
     t_3 = "test_image2_small.jpg"
+    t_4 = "test_image3.jpg"
     image = Image.open(d)
     image = to_grayscale(image).unsqueeze(0)
     output = model.forward(image)
