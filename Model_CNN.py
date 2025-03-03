@@ -3,7 +3,7 @@ import torch
 class Model_CNN(torch.nn.Module):
     def __init__(self, loss_fn, device):
         super(Model_CNN, self).__init__()
-        
+
         self.conv1 = torch.nn.Conv2d(in_channels=1, out_channels=12, kernel_size=5, padding=2)
         self.conv2 = torch.nn.Conv2d(in_channels=12, out_channels=16, kernel_size=5, padding=2)
         self.conv3 = torch.nn.Conv2d(in_channels=16, out_channels=24, kernel_size=5, padding=2)
@@ -19,7 +19,7 @@ class Model_CNN(torch.nn.Module):
         self.conv13 = torch.nn.Conv2d(in_channels=8, out_channels=6, kernel_size=3, padding=1)
         self.conv14 = torch.nn.Conv2d(in_channels=6, out_channels=6, kernel_size=3, padding=1)
         self.output_layer = torch.nn.Conv2d(in_channels=6, out_channels=3, kernel_size=1)
-        
+
         self.bn1 = torch.nn.BatchNorm2d(12)
         self.bn2 = torch.nn.BatchNorm2d(16)
         self.bn3 = torch.nn.BatchNorm2d(24)
@@ -34,9 +34,9 @@ class Model_CNN(torch.nn.Module):
         self.bn12 = torch.nn.BatchNorm2d(8)
         self.bn13 = torch.nn.BatchNorm2d(6)
         self.bn14 = torch.nn.BatchNorm2d(6)
-        
+
         self.activation = torch.nn.ReLU()
-        self.output_activation = torch.nn.Sigmoid()
+        # self.output_activation = torch.nn.Sigmoid()
         self.loss = loss_fn
         self.device = device
         self.optim = None  # Needs to be set after model initialization
@@ -60,5 +60,5 @@ class Model_CNN(torch.nn.Module):
         x = self.activation(self.bn12(self.conv12(x)))
         x = self.activation(self.bn13(self.conv13(x)))
         x = self.activation(self.bn14(self.conv14(x)))
-        x = self.output_activation(self.output_layer(x))  # sigmoid activation on final layer
+        x = self.output_layer(x)
         return x
