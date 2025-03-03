@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # I only have cpu
     print(device)
-    loss_fn = torch.nn.MSELoss()
+    loss_fn =  torch.nn.L1Loss() # torch.nn.MSELoss()
 
     model = Model_CNN(loss_fn, device)  # Initialize without optimizer
     model.to(device)
@@ -66,7 +66,8 @@ if __name__ == "__main__":
     print("\nTraining the model...")
     for i in range(start_epoch, epochs):
         print(f"Epoch {i}")
-
+        total_loss = 0
+        processed_batches = 0
         for batch_idx, (targets, _) in enumerate(data_loader):  # targets = colored images
 
             if batch_idx < start_batch:  # Skip processed batches if loading from checkpoint
@@ -81,6 +82,9 @@ if __name__ == "__main__":
             loss.backward()
             model.optim.step()
 
+            processed_batches += 1
+            total_loss += loss.item()
+
             # save the model every x batches
             # if (batch_idx + 1) % 50 == 0:
             #     batch_save_path = os.path.join(CHECKPOINT_DIR, f"model_epoch_{i}_batch_{batch_idx}.pth")
@@ -91,6 +95,7 @@ if __name__ == "__main__":
             #         "optimizer_state_dict": optimizer.state_dict(),
             #     }, batch_save_path)
             #     print(f"Saved batch checkpoint: {batch_save_path}")
+        print(f"average loss per epoch num {i}:", total_loss/processed_batches)
         start_batch = 0  # Reset batch index after first epoch
         # save the model every epoch
         epoch_save_path = os.path.join(CHECKPOINT_DIR, f"model_epoch_{i}.pth")
@@ -100,22 +105,3 @@ if __name__ == "__main__":
             "optimizer_state_dict": optimizer.state_dict(),
         }, epoch_save_path)
         print(f"Saved epoch checkpoint: {epoch_save_path}")
-
-    # test the model
-    d = '/home/vladislav/Documents/Image-Colourizer/transformed_dataset/resized/animals/Image_25.jpg'
-    t_1 = "test_image1.jpg"
-    t_2 = "test_image2.jpg"
-    t_3 = "test_image2_small.jpg"
-    t_4 = "test_image3.jpg"
-    image = Image.open(t_2)
-    image = to_grayscale(image).unsqueeze(0)
-    image = image.to(device)  # allow for GPU processing
-    output = model.forward(image)
-
-    # Display the image
-    output_image = output.squeeze(0).cpu().detach()  # Remove batch dim & move to CPU
-    output_image = to_pils(output_image)
-    plt.imshow(output_image)
-    plt.axis("off")  # Hide axes
-    plt.show()
-
