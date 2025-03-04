@@ -31,7 +31,7 @@ if __name__ == "__main__":
     # load existing model
     start_epoch = 0
     start_batch = 0
-    checkpoint_file = "model_epoch_6.pth"
+    checkpoint_file = "model_epoch_106.pth"
     checkpoint_path = os.path.join(CHECKPOINT_DIR, checkpoint_file)
     checkpoint = torch.load(checkpoint_path, map_location=device)
     # Load model and optimizer states
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     t_2 = "test_image2.jpg"
     t_3 = "test_image2_small.jpg"
     t_4 = "test_image3.jpg"
-    image = Image.open(t_2)
+    image = Image.open(d)
     image = to_grayscale(image).unsqueeze(0)
     image = image.to(device)  # allow for GPU processing
     output = model.forward(image)
