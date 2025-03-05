@@ -55,12 +55,3 @@ Training is performed on 256x256 images, as such, it is expected that the model 
 
 ## Matching the input size in the output
     Padding was used at every convolution to ensure that the activation map is the same size as the input
-
-
-### Requirements
-    1. torch
-    2. bing-image-downloader (used to download images from BING to be used as raw training data)
-    3. pathlib
-    4. torchvision
-    5. PIL
-    6. os
