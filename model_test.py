@@ -42,16 +42,15 @@ if __name__ == "__main__":
     start_epoch = checkpoint["epoch"]
     print(f"Loaded model from epoch {checkpoint['epoch']}, batch {checkpoint.get('batch', 0)}")
 
-
-    d = '/home/vladislav/Documents/Image-Colourizer/transformed_dataset/resized/animals/Image_22.jpg'
-    p = '/home/vladislav/Documents/Image-Colourizer/transformed_dataset/resized/people/Image_24.jpg'
-    f = '/home/vladislav/Documents/Image-Colourizer/transformed_dataset/resized_rotated/food/Image_17.jpg'
+    # d = '/home/vladislav/Documents/Image-Colourizer/transformed_dataset/resized/animals/Image_22.jpg'
+    # p = '/home/vladislav/Documents/Image-Colourizer/transformed_dataset/resized/people/Image_24.jpg'
+    # f = '/home/vladislav/Documents/Image-Colourizer/transformed_dataset/resized_rotated/food/Image_17.jpg'
     t_1 = "test_image1.jpg"
     t_1_small = "test_image1_small.jpg"
     t_2 = "test_image2.jpg"
     t_2_small = "test_image2_small.jpg"
     t_4 = "test_image3.jpg"
-    image = Image.open(t_2)
+    image = Image.open(t_1_small)
     image = to_grayscale(image).unsqueeze(0)
     image = image.to(device)  # allow for GPU processing
     output = model.forward(image)
