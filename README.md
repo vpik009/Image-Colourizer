@@ -1,7 +1,7 @@
 # Image-Colourizer
 This is a project that designs and creates a small Neural Network using Convolutional Neural Networks with the purpose of learning to colourize black and white (grayscale) images.
 
-Current training has been halted as 90 epochs with an L1 loss of ~0.07
+Current training has been halted at 90 epochs with an L1 loss of ~0.07
     - model included in checkpoints dir
 
 ![Alt text](90_epoch_progress.png)
