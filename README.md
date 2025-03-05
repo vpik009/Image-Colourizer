@@ -7,7 +7,7 @@ Current training has been halted as 90 epochs with an L1 loss of ~0.075
 ![Alt text](90_epoch_progress.png)
 
 
-Prior to the use of the downloaded images, the images were all resized to 256x256 images.the transformation is performed by 'data_transformer.py' file. On top of resizing, the 'data_transformer.py' file performs rotational data augmentation. (View Regularization section)
+Prior to the use of the downloaded images, the images were all resized to 256x256 images. The transformation is performed by the 'data_transformer.py' file. On top of resizing, the 'data_transformer.py' file performs rotational data augmentation. (View Regularization section)
 
 Training is performed on 256x256 images, as such, it is expected that the model would perform best on images with size 256x256.
 
@@ -23,24 +23,24 @@ Training is performed on 256x256 images, as such, it is expected that the model 
     - L1 loss with batch size 30
 
 ## Regularization
-    - L2 regularization (which encourages smaller weight values by penalizing large weights)
-    - The use of batches technically results in regularization due to the fact that the update step is performed based on the average loss across subset of the dataset - introducing noise.
-    - Data Augmentation 1: Rotation was included in the preprocessing of the data. The Augmented data was used as part of the training data.
-    - TODO Data Augmentation 2: Multi Scale data augmentation to train the model to intake images of different sizes
+    - L2 regularization (which encourages smaller weight values by penalizing large weights). Although it wasn't used in the provided model.
+    - The use of batches technically results in regularization since the update step is performed based on the average loss across a subset of the dataset - introducing noise.
+    - Data Augmentation 1: Rotation was included in the data preprocessing. The Augmented data was used as part of the training data.
+    - TODO Data Augmentation 2: Multi Scale data augmentation to train the model to intake images of different sizes.
 
 ## Optimizer
-    - Adam optimizer is used to update the model parameters at every step while considering the exponential moving average of gradients (similar to momentum), exponential moving squared average of gradients (used to adapt the learning rate), and adaptively correcting the learing rate.
+    - Adam optimizer is used to update the model parameters at every step while considering the exponential moving average of gradients (similar to momentum), exponential moving squared average of gradients (used to adapt the learning rate), and adaptively correcting the learning rate.
 
 ## Use of Batches
-    - We use batches of size 20 to improve learning efficiency.
+    - We use batches of size 30 to improve learning efficiency.
 
 ## Normalization
-    Batch normalization is performed after every 2d convolution later.
+    Batch normalization is performed after every 2d convolution layer.
     - Normalizes the values for each channel dimension to fit a mean of 0 and a variance of 1
     - Helps stabilize training.
 
 ## Train Data
-    - Bing downloader was used to download the train and test data. Further details can be viewed in 'dataset.py' file
+    - Bing downloader was used to download the train and test data. Further details can be viewed in the 'dataset.py' file
     - Downloaded images were browsed and downloaded using the following parameters:
         "animals", "people", "cars", "buildings", "trees", "mountains", "beaches", "food",
         "oceans", "rivers", "lakes", "deserts", "cities", "night", "moon", "clouds",
@@ -48,10 +48,7 @@ Training is performed on 256x256 images, as such, it is expected that the model 
         "volcano", "tsunami", "fire", "ice", "water", "air", "earth", "space",
         "universe", "galaxy", "planet", "winter", "spring", "summer", "autumn", 
         "flowers", "peoples faces"
-    - queries can be found in 'queries_for_download.py' file
-    - Uses of data loader allows to efficiently use batches with random data samples for training.
+    - queries can be found in the 'queries_for_download.py' file
+    - The use of data loader allows to use batches with random data samples for training efficiently.
     - Some of the data was manually filtered based on the "appropriateness" of the images for the training of the model.
     - Transformed training dataset has been included and produced by 'data_transformer.py'
-
-## Matching the input size in the output
-    Padding was used at every convolution to ensure that the activation map is the same size as the input
