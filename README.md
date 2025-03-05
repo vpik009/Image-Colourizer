@@ -1,15 +1,21 @@
 # Image-Colourizer
 This is a project that designs and creates a small Neural Network using Convolutional Neural Networks with the purpose of learning to colourize black and white (grayscale) images.
 
+Current training has been halted as 90 epochs with an L1 loss of ~0.075
+    - model included in checkpoints dir
+
+![Alt text](90_epoch_progress.png)
+
 ## Model
     - Convolutional Neural Network
+    - Follows the encoder decoder architecture to learn 'useful' features
     - Can be viewed in 'Model_CNN.py' file
 
 ## Activation Function(s)
     - Rectified Linear Unit (ReLu)
 
 ## Loss Function
-    - Mean Square Error Loss was used across batches of size 20
+    - L1 loss with batch size 30
 
 ## Regularization
     - L2 regularization (which encourages smaller weight values by penalizing large weights)
@@ -29,7 +35,6 @@ This is a project that designs and creates a small Neural Network using Convolut
     - Helps stabilize training.
 
 ## Train Data
-    - TODO: switch to using ImageNet dataset for train data
     - Bing downloader was used to download the train and test data. Further details can be viewed in 'dataset.py' file
     - Downloaded images were browsed and downloaded using the following parameters:
         "animals", "people", "cars", "buildings", "trees", "mountains", "beaches", "food",
@@ -41,7 +46,7 @@ This is a project that designs and creates a small Neural Network using Convolut
     - queries can be found in 'queries_for_download.py' file
     - Uses of data loader allows to efficiently use batches with random data samples for training.
     - Some of the data was manually filtered based on the "appropriateness" of the images for the training of the model.
-    - Filtred dataset can be viewed and downloaded here: TODO
+    - Transformed training dataset has been included and produced by 'data_transformer.py'
 
 ## Handling Various Image Sizes
     - Prior to the use of the downloaded images, the images were all resized to 256x256 images.
