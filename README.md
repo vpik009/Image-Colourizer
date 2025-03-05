@@ -52,3 +52,4 @@ Training is performed on 256x256 images, as such, it is expected that the model 
     - The use of data loader allows to use batches with random data samples for training efficiently.
     - Some of the data was manually filtered based on the "appropriateness" of the images for the training of the model.
     - Transformed training dataset has been included and produced by 'data_transformer.py'
+    - Currently includes roughly 5000 resized and augmented training images
