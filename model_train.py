@@ -3,8 +3,6 @@ from Model_CNN import Model_CNN
 from torchvision import transforms
 from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader
-import matplotlib.pyplot as plt
-from PIL import Image
 import os
 
 MODEL_PATH = "model.pth"  # latest model path

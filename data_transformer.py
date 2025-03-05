@@ -1,4 +1,3 @@
-import torch
 from PIL import Image
 from torchvision import transforms
 from queries_for_download import queries
