@@ -6,6 +6,11 @@ Current training has been halted as 90 epochs with an L1 loss of ~0.075
 
 ![Alt text](90_epoch_progress.png)
 
+
+Prior to the use of the downloaded images, the images were all resized to 256x256 images.the transformation is performed by 'data_transformer.py' file. On top of resizing, the 'data_transformer.py' file performs rotational data augmentation. (View Regularization section)
+
+Training is performed on 256x256 images, as such, it is expected that the model would perform best on images with size 256x256.
+
 ## Model
     - Convolutional Neural Network
     - Follows the encoder decoder architecture to learn 'useful' features
@@ -47,11 +52,6 @@ Current training has been halted as 90 epochs with an L1 loss of ~0.075
     - Uses of data loader allows to efficiently use batches with random data samples for training.
     - Some of the data was manually filtered based on the "appropriateness" of the images for the training of the model.
     - Transformed training dataset has been included and produced by 'data_transformer.py'
-
-## Handling Various Image Sizes
-    - Prior to the use of the downloaded images, the images were all resized to 256x256 images.
-    - the transformation is performed by 'data_transformer.py' file
-    - On top of resizing, the 'data_transformer.py' file performs rotational data augmentation. (View Regularization section)
 
 ## Matching the input size in the output
     Padding was used at every convolution to ensure that the activation map is the same size as the input
